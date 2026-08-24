@@ -18,7 +18,7 @@ export const listTasks = async (currentUser) => {
     filter.createdBy = currentUser.id;
   }
 
-  return Task.find(filter).sort({ createdAt: -1 }).lean();
+  return Task.find(filter).select("-__v").sort({ createdAt: -1 }).lean();
 };
 
 export const getTaskById = async (taskId, currentUser) => {
