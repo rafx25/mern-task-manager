@@ -50,6 +50,9 @@ const taskSchema = new mongoose.Schema(
 // Covers the main list query: a user's active tasks, newest first.
 taskSchema.index({ createBy: 1, deletedAt: 1, createdAt: -1 });
 
+// Admin views list every user's tasks, so createdBy is not in the filter.
+taskSchema.index({ deletedAt: 1, createdAt: -1 });
+
 taskSchema.set("toJSON", {
   transform: (doc, ret) => {
     delete ret.__v;
