@@ -45,6 +45,15 @@ export const updateTask = async (taskId, input, currentUser) => {
   return task.save();
 };
 
+export const listDeletedTasks = async () => {
+  // Access is enforced by requireRole('admin) on the route, so this is
+  // deliberately unscoped.
+  return Task.find({ deletedAt: { $ne: null } })
+    .select("-__v")
+    .sort({ deletedAt: -1 })
+    .lean();
+};
+
 const assertCanAccess = (task, currentUser) => {
   const isOwner = task.createdBy.equals(currentUser.id);
 

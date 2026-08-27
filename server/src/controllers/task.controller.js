@@ -19,3 +19,8 @@ export const updateTask = async (req, res) => {
   const task = await taskService.updateTask(req.params.id, req.body, req.user);
   res.status(200).json({ success: true, data: task });
 };
+
+export const listDeletedTasks = async (req, res) => {
+  const tasks = await taskService.listDeletedTasks();
+  res.status(200).json({ success: true, data: tasks });
+};
