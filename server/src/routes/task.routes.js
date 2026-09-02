@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as taskController from "../controllers/task.controller.js";
+import { requireRole } from "../middleware/authorize.middleware.js";
 
 const router = Router();
 
