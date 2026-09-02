@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-export const TASK_STATUS = ["todo", "in_progress", "done"];
-export const TASK_PRIORITY = ["low", "medium", "high"];
+export const TASK_STATUSES = ["todo", "in_progress", "done"];
+export const TASK_PRIORITIES = ["low", "medium", "high"];
 
 const taskSchema = new mongoose.Schema(
   {
@@ -22,13 +22,13 @@ const taskSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: { values: TASK_STATUS, message: "{VALUE} is not a valid status" },
+      enum: { values: TASK_STATUSES, message: "{VALUE} is not a valid status" },
       default: "todo",
     },
 
     priority: {
       type: String,
-      enum: { values: TASK_PRIORITY, message: "{VALUE} is not a valid priority" },
+      enum: { values: TASK_PRIORITIES, message: "{VALUE} is not a valid priority" },
       default: "medium",
     },
 
