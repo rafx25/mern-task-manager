@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ZodError } from "zod";
-import { ApiError } from "../ulits/api-error.js";
+import { ApiError } from "../utils/api-error.js";
 import { env } from "../config/env.js";
 
 // Only the first issue is surfaced. The frontend shows one message at a time,
