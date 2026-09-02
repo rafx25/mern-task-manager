@@ -1,10 +1,51 @@
+import mongoose from "mongoose";
 import { ApiError } from "../ulits/api-error.js";
+import { env } from "../config/env.js";
+
+// Moongose throws CastError when a path cannot be coerced to its schema type.
+const fromCastError = (err) => new ApiError(400, `Invalid value for ${err.path}`);
+
+const fromValidationError = (err) => {
+  const messages = Object.values(err.errors).map((e) => e.message);
+  return new ApiError(400, messages.join(". "));
+};
+
+// 11000 is raised by the database, not by a schema validator, so it never
+// arrives as a Mongoose ValidationError.
+const fromDuplicateKeyError = (err) => {
+  const field = Object.keys(err.keyValue ?? {})[0] ?? "field";
+  return new ApiError(409, `That ${field} is already in use`);
+};
+
+const normalize = (err) => {
+  if (err instanceof ApiError) return err;
+  if (err instanceof mongoose.Error.CastError) return fromCastError(err);
+  if (err instanceof mongoose.Error.ValidationError) return fromValidationError(err);
+  if (err.code === 11000) return fromDuplicateKeyError(err);
+
+  // express.json() rejects malformed bodies before any route runs.
+  if (err instanceof SyntaxError && "body" in err) {
+    return new ApiError(400, "Request body is not valid JSON");
+  }
+};
 
 export const errorHandler = (err, req, res, next) => {
-  if (err instanceof ApiError) {
-    return res.status(err.statusCode).json({ success: false, message: err.message });
+  const apiError = normalize(err);
+
+  if (apiError) {
+    return res.status(apiError.statusCode).json({
+      success: false,
+      message: apiError.message,
+    });
   }
 
-  console.error(err);
-  res.status(500).json({ success: false, message: "Something went wrong" });
+  // Anything reaching here is a bug, not a handled condition. Log the whole
+  // thing; send the client nothing that describes the internals.
+  console.error(`[${req.method} ${req.originalUrl}]`, err);
+
+  res.status(500).json({
+    success: false,
+    message: "Something went wrong",
+    ...(env.isProduction ? {} : { stack: err.stack }),
+  });
 };
