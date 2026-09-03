@@ -1,4 +1,4 @@
-const required = ["NODE_ENV", "PORT", "CLIENT_URL", "MONGODB_URI", "JWT_SECRET", "JWT_EXPIRES_IN"];
+const required = ["NODE_ENV", "PORT", "CLIENT_URL", "MONGODB_URI", "JWT_SECRET", "ACCESS_TOKEN_EXPIRES_IN", "REFRESH_TOKEN_EXPIRES_DAYS"];
 
 const missing = required.filter((key) => !process.env[key]);
 
@@ -17,6 +17,7 @@ export const env = {
   clientUrl: process.env.CLIENT_URL,
   mongoUri: process.env.MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET,
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN,
+  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
+  refreshTokenExpiresDays: Number(process.env.REFRESH_TOKEN_EXPIRES_DAYS),
   isProduction: process.env.NODE_ENV === "production",
 };

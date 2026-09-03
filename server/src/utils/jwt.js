@@ -10,7 +10,7 @@ export const signAccessToken = (user) =>
       role: user.role,
     },
     env.jwtSecret,
-    { expiresIn: env.jwtExpiresIn },
+    { expiresIn: env.accessTokenExpiresIn },
   );
 
 export const verifyAccessToken = (token) => jwt.verify(token, env.jwtSecret);
