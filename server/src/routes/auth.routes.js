@@ -8,6 +8,11 @@ const router = Router();
 
 router.post("/register", validate({ body: registerBody }), authController.register);
 router.post("/login", validate({ body: loginBody }), authController.login);
+
+// No requireAuth: this is the endpoint call precisely because the access
+// token has expired.
+router.post("/refresh", authController.refresh);
+
 router.post("/logout", authController.logout);
 router.get("/me", requireAuth, authController.me);
 
