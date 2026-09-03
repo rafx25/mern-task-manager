@@ -1,4 +1,4 @@
-import { ApiError } from "../ulits/api-error.js";
+import { ApiError } from "../utils/api-error.js";
 
 // Role is already on req.user, so this rejects before any database work.
 // Ownership checks are different and belong in the service, since the owner

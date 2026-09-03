@@ -1,5 +1,5 @@
 import { Task } from "../models/task.model.js";
-import { ApiError } from "../ulits/api-error.js";
+import { ApiError } from "../utils/api-error.js";
 
 export const createTask = async (input, currentUser) => {
   return Task.create({
