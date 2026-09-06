@@ -34,7 +34,8 @@ api.interceptors.response.use(
 
         return api(request);
       } catch {
-        window.location.href = "/login";
+        // Deliberately no redirect here. Navigation belongs to the router;
+        // this layer only reports that the session is gone.
         return Promise.reject({ status: 401, message: "Your session has expired" });
       } finally {
         refreshPromise = null;
