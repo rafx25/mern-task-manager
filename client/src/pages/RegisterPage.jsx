@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../context/AuthContext";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import { useAuth } from "../context/auth-context.js";
+import Input from "../components/Input.jsx";
+import Button from "../components/Button.jsx";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });

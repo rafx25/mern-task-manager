@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/auth-context.js";
 
 const linkStyle = ({ isActive }) => ({
   marginRight: "1rem",

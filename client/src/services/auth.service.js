@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from "./api.js";
 
 export const authService = {
   register: (payload) => api.post("/auth/register", payload),
